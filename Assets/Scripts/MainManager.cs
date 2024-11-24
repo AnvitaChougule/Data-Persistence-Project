@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainManager : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
-    
+    public Text BestScoreText; // Reference to TextMeshPro Text to display player name and score
+
     private bool m_Started = false;
     private int m_Points;
     
@@ -22,6 +24,9 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        string playerName = PlayerPrefs.GetString("PlayerName", "Player"); // Default to "Player" if no name is set
+        BestScoreText.text = "Best Score: "  + " : 0"; // Initialize with default points (0)
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -72,5 +77,11 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+        // Retrieve player name from PlayerPrefs
+        string playerName = PlayerPrefs.GetString("PlayerName", "Player");
+
+        // Update Best Score Text with the player's name and score
+        BestScoreText.text = "Best Score: " + playerName + " : " + m_Points;
     }
 }
